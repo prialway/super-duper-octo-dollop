@@ -2,28 +2,36 @@ local ScreenGui = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
 local RecordButton = Instance.new("TextButton")
 local PlayButton = Instance.new("TextButton")
+local TelelobbyButton = Instance.new("TextButton")
 
 -- Cài đặt GUI
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 Frame.Parent = ScreenGui
 Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-Frame.Size = UDim2.new(0, 300, 0, 100)
-Frame.Position = UDim2.new(0.5, -150, 0.5, -50)
+Frame.Size = UDim2.new(0, 300, 0, 140)
+Frame.Position = UDim2.new(0.5, -150, 0.5, -70)
 
 -- Nút Recording
 RecordButton.Parent = Frame
 RecordButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 RecordButton.Position = UDim2.new(0, 10, 0, 10)
-RecordButton.Size = UDim2.new(0, 130, 0, 80)
+RecordButton.Size = UDim2.new(0, 130, 0, 40)
 RecordButton.Text = "Recording (Off)"
 
 -- Nút Play
 PlayButton.Parent = Frame
 PlayButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-PlayButton.Position = UDim2.new(0, 160, 0, 10)
-PlayButton.Size = UDim2.new(0, 130, 0, 80)
+PlayButton.Position = UDim2.new(0, 10, 0, 60)
+PlayButton.Size = UDim2.new(0, 130, 0, 40)
 PlayButton.Text = "Play"
+
+-- Nút Telelobby
+TelelobbyButton.Parent = Frame
+TelelobbyButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+TelelobbyButton.Position = UDim2.new(0, 160, 0, 10)
+TelelobbyButton.Size = UDim2.new(0, 130, 0, 40)
+TelelobbyButton.Text = "Telelobby"
 
 -- Biến ghi lại hành động
 local recording = false
@@ -90,4 +98,12 @@ PlayButton.MouseButton1Click:Connect(function()
             game.Players.LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(action.position)
         end
     end
+end)
+
+-- Đưa người chơi về lobby
+TelelobbyButton.MouseButton1Click:Connect(function()
+    -- Ví dụ: Di chuyển người chơi về một vị trí cụ thể trong lobby
+    local lobbyPosition = Vector3.new(0, 50, 0) -- Cập nhật vị trí lobby theo yêu cầu của bạn
+    game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(lobbyPosition))
+    print("Đưa người chơi về lobby tại vị trí", lobbyPosition)
 end)
