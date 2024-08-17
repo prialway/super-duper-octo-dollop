@@ -1,28 +1,126 @@
+-- Khởi tạo GUI
+local screenGui = Instance.new("ScreenGui")
+local mainFrame = Instance.new("Frame")
+local titleLabel = Instance.new("TextLabel")
+local summonButton = Instance.new("TextButton")
+local fuseButton = Instance.new("TextButton")
+local closeButton = Instance.new("TextButton")
+
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+mainFrame.Parent = screenGui
+titleLabel.Parent = mainFrame
+summonButton.Parent = mainFrame
+fuseButton.Parent = mainFrame
+closeButton.Parent = mainFrame
+
+-- Thiết kế chính
+mainFrame.Size = UDim2.new(0, 400, 0, 300)
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
+mainFrame.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+mainFrame.BorderSizePixel = 0
+
+-- Tiêu đề
+titleLabel.Text = "Game Menu"
+titleLabel.Size = UDim2.new(1, 0, 0, 50)
+titleLabel.Position = UDim2.new(0, 0, 0, 0)
+titleLabel.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.Font = Enum.Font.GothamBold
+titleLabel.TextSize = 24
+
+-- Nút Summon
+summonButton.Text = "Summon"
+summonButton.Size = UDim2.new(0, 150, 0, 50)
+summonButton.Position = UDim2.new(0.1, 0, 0.3, 0)
+summonButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+summonButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+summonButton.Font = Enum.Font.GothamBold
+summonButton.TextSize = 20
+
+-- Hiệu ứng Hover cho nút Summon
+summonButton.MouseEnter:Connect(function()
+    summonButton.BackgroundColor3 = Color3.fromRGB(75, 75, 75)
+end)
+
+summonButton.MouseLeave:Connect(function()
+    summonButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+end)
+
+-- Nút Fuse
+fuseButton.Text = "Fuse"
+fuseButton.Size = UDim2.new(0, 150, 0, 50)
+fuseButton.Position = UDim2.new(0.1, 0, 0.5, 0)
+fuseButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+fuseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+fuseButton.Font = Enum.Font.GothamBold
+fuseButton.TextSize = 20
+
+-- Hiệu ứng Hover cho nút Fuse
+fuseButton.MouseEnter:Connect(function()
+    fuseButton.BackgroundColor3 = Color3.fromRGB(75, 75, 75)
+end)
+
+fuseButton.MouseLeave:Connect(function()
+    fuseButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+end)
+
+-- Nút Đóng
+closeButton.Text = "X"
+closeButton.Size = UDim2.new(0, 30, 0, 30)
+closeButton.Position = UDim2.new(1, -35, 0, 5)
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.Font = Enum.Font.GothamBold
+closeButton.TextSize = 18
+
+-- Chức năng Đóng
+closeButton.MouseButton1Click:Connect(function()
+    screenGui.Enabled = false
+end)
+
+-- Góc bo tròn cho các thành phần
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 10)
+corner.Parent = mainFrame
+
+local buttonCorner = Instance.new("UICorner")
+buttonCorner.CornerRadius = UDim.new(0, 10)
+buttonCorner.Parent = summonButton
+
+local fuseButtonCorner = Instance.new("UICorner")
+fuseButtonCorner.CornerRadius = UDim.new(0, 10)
+fuseButtonCorner.Parent = fuseButton
+
+local closeButtonCorner = Instance.new("UICorner")
+closeButtonCorner.CornerRadius = UDim.new(0, 10)
+closeButtonCorner.Parent = closeButton
+
 -- Auto Summon Script
-local summonButton = script.Parent.SummonButton -- Nút Summon
 local gems = game.Players.LocalPlayer.leaderstats.Gems -- Số Gems của người chơi
 
 summonButton.MouseButton1Click:Connect(function()
-    local summonMode = script.Parent.SummonMode.Text -- Lấy mode summon từ UI
-    local banner = script.Parent.SummonBanner.Text -- Lấy banner để summon
-    local unit = script.Parent.SummonUnit.Text -- Lấy unit để summon
+    local summonMode = "Standard" -- Có thể thay bằng script.Parent.SummonMode.Text nếu có UI
+    local banner = "HeroBanner" -- Có thể thay bằng script.Parent.SummonBanner.Text nếu có UI
+    local unit = "LegendaryHero" -- Có thể thay bằng script.Parent.SummonUnit.Text nếu có UI
 
     if gems.Value >= 50 then -- Kiểm tra xem người chơi có đủ Gems không
         game.ReplicatedStorage.RemoteEvents.Summon:FireServer(banner, unit)
-        print("Summon thành công cho "..unit)
+        print("Summon thành công cho " .. unit)
     else
         print("Không đủ Gems!")
     end
 end)
+
 -- Auto Fuse Script
-local fuseButton = script.Parent.FuseButton -- Nút Fuse
-local fuseSlot = script.Parent.FuseSlot.Text -- Slot để fuse
-local fuseRarity = script.Parent.FuseRarity.Text -- Rarity để fuse
+local fuseSlot = "Slot1" -- Có thể thay bằng script.Parent.FuseSlot.Text nếu có UI
+local fuseRarity = "Rare" -- Có thể thay bằng script.Parent.FuseRarity.Text nếu có UI
 
 fuseButton.MouseButton1Click:Connect(function()
     game.ReplicatedStorage.RemoteEvents.Fuse:FireServer(fuseSlot, fuseRarity)
-    print("Fuse thành công vào slot "..fuseSlot)
+    print("Fuse thành công vào slot " .. fuseSlot)
 end)
+
+-- Macro Script
 local macro = {}
 
 function recordMacro(action)
@@ -34,6 +132,8 @@ function playMacro()
         -- Thực hiện các hành động được ghi lại
     end
 end
+
+-- Webhook Function
 local HttpService = game:GetService("HttpService")
 
 function sendWebhook(url, message)
