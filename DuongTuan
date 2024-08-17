@@ -10,6 +10,7 @@ local macroFrame = Instance.new("Frame")
 local recordButton = Instance.new("TextButton")
 local playButton = Instance.new("TextButton")
 local hideUIButton = Instance.new("TextButton")
+local showUIButton = Instance.new("TextButton")
 
 -- Cài đặt ScreenGui
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
@@ -104,11 +105,21 @@ playButton.TextSize = 20
 hideUIButton.Parent = screenGui
 hideUIButton.Text = "HIDE UI"
 hideUIButton.Size = UDim2.new(0, 150, 0, 50)
-hideUIButton.Position = UDim2.new(0.5, -75, 0, 10) -- Điều chỉnh vị trí để nằm trên cùng
+hideUIButton.Position = UDim2.new(0.5, -160, 0, 10) -- Điều chỉnh vị trí để nằm kế bên nút SHOW UI
 hideUIButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
 hideUIButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 hideUIButton.Font = Enum.Font.GothamBold
 hideUIButton.TextSize = 20
+
+-- Cài đặt Nút SHOW UI
+showUIButton.Parent = screenGui
+showUIButton.Text = "SHOW UI"
+showUIButton.Size = UDim2.new(0, 150, 0, 50)
+showUIButton.Position = UDim2.new(0.5, 10, 0, 10) -- Điều chỉnh vị trí để nằm kế bên nút HIDE UI
+showUIButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+showUIButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+showUIButton.Font = Enum.Font.GothamBold
+showUIButton.TextSize = 20
 
 -- Cài đặt Góc Bo Tròn
 local function addUICorner(instance)
@@ -125,6 +136,7 @@ addUICorner(macroButton)
 addUICorner(recordButton)
 addUICorner(playButton)
 addUICorner(hideUIButton)
+addUICorner(showUIButton)
 
 -- Biến ghi lại hành động
 local recording = false
@@ -173,7 +185,16 @@ end)
 -- Chức năng của nút HIDE UI
 local uiVisible = true
 hideUIButton.MouseButton1Click:Connect(function()
-    uiVisible = not uiVisible
-    screenGui.Enabled = uiVisible
-    hideUIButton.Text = uiVisible and "HIDE UI" or "SHOW UI"
+    uiVisible = false
+    screenGui.Enabled = false
+    hideUIButton.Visible = false
+    showUIButton.Visible = true
+end)
+
+-- Chức năng của nút SHOW UI
+showUIButton.MouseButton1Click:Connect(function()
+    uiVisible = true
+    screenGui.Enabled = true
+    showUIButton.Visible = false
+    hideUIButton.Visible = true
 end)
