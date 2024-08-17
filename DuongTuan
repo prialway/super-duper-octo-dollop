@@ -33,6 +33,9 @@ TelelobbyButton.Position = UDim2.new(0, 160, 0, 10)
 TelelobbyButton.Size = UDim2.new(0, 130, 0, 40)
 TelelobbyButton.Text = "Telelobby"
 
+-- Thông báo debug
+print("Nút Telelobby đã được tạo và thêm vào Frame")
+
 -- Biến ghi lại hành động
 local recording = false
 local actions = {}
