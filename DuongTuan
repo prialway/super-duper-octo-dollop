@@ -9,6 +9,7 @@ local macroButton = Instance.new("TextButton")
 local macroFrame = Instance.new("Frame")
 local recordButton = Instance.new("TextButton")
 local playButton = Instance.new("TextButton")
+local hideUIButton = Instance.new("TextButton")
 
 -- Cài đặt ScreenGui
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
@@ -62,10 +63,10 @@ closeButton.Font = Enum.Font.GothamBold
 closeButton.TextSize = 18
 
 -- Cài đặt Nút Macro
-macroButton.Parent = screenGui
+macroButton.Parent = mainFrame
 macroButton.Text = "Macro"
 macroButton.Size = UDim2.new(0, 150, 0, 50)
-macroButton.Position = UDim2.new(0.7, 0, 0.7, 0)
+macroButton.Position = UDim2.new(0.7, -75, 0.3, 0) -- Điều chỉnh vị trí để không bị lệch
 macroButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
 macroButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 macroButton.Font = Enum.Font.GothamBold
@@ -99,6 +100,16 @@ playButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 playButton.Font = Enum.Font.GothamBold
 playButton.TextSize = 20
 
+-- Cài đặt Nút HIDE UI
+hideUIButton.Parent = screenGui
+hideUIButton.Text = "HIDE UI"
+hideUIButton.Size = UDim2.new(0, 150, 0, 50)
+hideUIButton.Position = UDim2.new(0.5, -75, 0, 10) -- Điều chỉnh vị trí để nằm trên cùng
+hideUIButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+hideUIButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+hideUIButton.Font = Enum.Font.GothamBold
+hideUIButton.TextSize = 20
+
 -- Cài đặt Góc Bo Tròn
 local function addUICorner(instance)
     local corner = Instance.new("UICorner")
@@ -113,6 +124,11 @@ addUICorner(closeButton)
 addUICorner(macroButton)
 addUICorner(recordButton)
 addUICorner(playButton)
+addUICorner(hideUIButton)
+
+-- Biến ghi lại hành động
+local recording = false
+local macro = {}
 
 -- Chức năng của các nút
 macroButton.MouseButton1Click:Connect(function()
@@ -152,4 +168,12 @@ end)
 fuseButton.MouseButton1Click:Connect(function()
     game.ReplicatedStorage.RemoteEvents.Fuse:FireServer("Slot1", "Rare")
     print("Fuse thành công!")
+end)
+
+-- Chức năng của nút HIDE UI
+local uiVisible = true
+hideUIButton.MouseButton1Click:Connect(function()
+    uiVisible = not uiVisible
+    screenGui.Enabled = uiVisible
+    hideUIButton.Text = uiVisible and "HIDE UI" or "SHOW UI"
 end)
