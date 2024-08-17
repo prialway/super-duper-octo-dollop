@@ -1,87 +1,73 @@
 local ScreenGui = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
-local RaidsActDropdown = Instance.new("TextButton")
-local ElementalMapDropdown = Instance.new("TextButton")
-local DifficultyDropdown = Instance.new("TextButton")
-local ModeDropdown = Instance.new("TextButton")
-local MapDropdown = Instance.new("TextButton")
-local ActDropdown = Instance.new("TextButton")
-local FriendsOnlyToggle = Instance.new("TextButton")
+local RecordButton = Instance.new("TextButton")
+local PlayButton = Instance.new("TextButton")
 
+-- Cài đặt GUI
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 Frame.Parent = ScreenGui
 Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-Frame.Size = UDim2.new(0, 300, 0, 400)
-Frame.Position = UDim2.new(0.5, -150, 0.5, -200)
+Frame.Size = UDim2.new(0, 300, 0, 100)
+Frame.Position = UDim2.new(0.5, -150, 0.5, -50)
 
-RaidsActDropdown.Parent = Frame
-RaidsActDropdown.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-RaidsActDropdown.Position = UDim2.new(0, 10, 0, 10)
-RaidsActDropdown.Size = UDim2.new(0, 280, 0, 50)
-RaidsActDropdown.Text = "Select Raids Act: 1"
+-- Nút Recording
+RecordButton.Parent = Frame
+RecordButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+RecordButton.Position = UDim2.new(0, 10, 0, 10)
+RecordButton.Size = UDim2.new(0, 130, 0, 80)
+RecordButton.Text = "Recording (Off)"
 
-ElementalMapDropdown.Parent = Frame
-ElementalMapDropdown.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-ElementalMapDropdown.Position = UDim2.new(0, 10, 0, 70)
-ElementalMapDropdown.Size = UDim2.new(0, 280, 0, 50)
-ElementalMapDropdown.Text = "Select Elemental Map: Dark"
+-- Nút Play
+PlayButton.Parent = Frame
+PlayButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+PlayButton.Position = UDim2.new(0, 160, 0, 10)
+PlayButton.Size = UDim2.new(0, 130, 0, 80)
+PlayButton.Text = "Play"
 
-DifficultyDropdown.Parent = Frame
-DifficultyDropdown.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-DifficultyDropdown.Position = UDim2.new(0, 10, 0, 130)
-DifficultyDropdown.Size = UDim2.new(0, 280, 0, 50)
-DifficultyDropdown.Text = "Select Difficulty: Normal"
+-- Biến ghi lại hành động
+local recording = false
+local actions = {}
 
-ModeDropdown.Parent = Frame
-ModeDropdown.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-ModeDropdown.Position = UDim2.new(0, 10, 0, 190)
-ModeDropdown.Size = UDim2.new(0, 280, 0, 50)
-ModeDropdown.Text = "Select Mode: Story"
-
-MapDropdown.Parent = Frame
-MapDropdown.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-MapDropdown.Position = UDim2.new(0, 10, 0, 250)
-MapDropdown.Size = UDim2.new(0, 280, 0, 50)
-MapDropdown.Text = "Select Map: nil"
-
-ActDropdown.Parent = Frame
-ActDropdown.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-ActDropdown.Position = UDim2.new(0, 10, 0, 310)
-ActDropdown.Size = UDim2.new(0, 280, 0, 50)
-ActDropdown.Text = "Select Act: 1"
-
-FriendsOnlyToggle.Parent = Frame
-FriendsOnlyToggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-FriendsOnlyToggle.Position = UDim2.new(0, 10, 0, 370)
-FriendsOnlyToggle.Size = UDim2.new(0, 280, 0, 50)
-FriendsOnlyToggle.Text = "Friends Only: Off"
-
--- Thêm các chức năng khi người dùng nhấn vào các nút
-RaidsActDropdown.MouseButton1Click:Connect(function()
-    print("Raids Act selected!")
+-- Bắt đầu hoặc dừng ghi
+RecordButton.MouseButton1Click:Connect(function()
+    recording = not recording
+    if recording then
+        RecordButton.Text = "Recording (On)"
+        actions = {} -- Làm sạch danh sách hành động khi bắt đầu ghi mới
+    else
+        RecordButton.Text = "Recording (Off)"
+    end
 end)
 
-ElementalMapDropdown.MouseButton1Click:Connect(function()
-    print("Elemental Map selected!")
+-- Ghi lại hành động đặt unit
+local function onUnitPlaced(unit, position)
+    if recording then
+        table.insert(actions, {unit = unit, position = position})
+        print("Ghi lại hành động: Đặt", unit, "tại vị trí", position)
+    end
+end
+
+-- Giả lập sự kiện đặt unit (cần thay thế bằng sự kiện thực tế trong game)
+game:GetService("Players").LocalPlayer.Character.ChildAdded:Connect(function(child)
+    if child:IsA("Model") then
+        local position = child:GetPrimaryPartCFrame().p
+        onUnitPlaced(child.Name, position)
+    end
 end)
 
-DifficultyDropdown.MouseButton1Click:Connect(function()
-    print("Difficulty selected!")
+-- Phát lại hành động đã ghi
+PlayButton.MouseButton1Click:Connect(function()
+    for _, action in ipairs(actions) do
+        -- Tái tạo hành động đặt unit (cần thay thế bằng logic thực tế)
+        print("Đang thực hiện lại:", action.unit, "tại vị trí", action.position)
+        
+        -- Ví dụ: Tạo lại unit tại vị trí đã ghi
+        local unitClone = game:GetService("ReplicatedStorage"):FindFirstChild(action.unit):Clone()
+        unitClone.Parent = game.Workspace
+        unitClone:SetPrimaryPartCFrame(CFrame.new(action.position))
+        
+        wait(1) -- Đặt thời gian chờ giữa các hành động nếu cần
+    end
 end)
 
-ModeDropdown.MouseButton1Click:Connect(function()
-    print("Mode selected!")
-end)
-
-MapDropdown.MouseButton1Click:Connect(function()
-    print("Map selected!")
-end)
-
-ActDropdown.MouseButton1Click:Connect(function()
-    print("Act selected!")
-end)
-
-FriendsOnlyToggle.MouseButton1Click:Connect(function()
-    print("Friends Only toggled!")
-end)
