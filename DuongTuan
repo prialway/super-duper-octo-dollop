@@ -10,8 +10,8 @@ ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 Frame.Parent = ScreenGui
 Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-Frame.Size = UDim2.new(0, 300, 0, 180)
-Frame.Position = UDim2.new(0.5, -150, 0.5, -90)
+Frame.Size = UDim2.new(0, 300, 0, 200)  -- Đảm bảo Frame đủ lớn
+Frame.Position = UDim2.new(0.5, -150, 0.5, -100)  -- Điều chỉnh vị trí nếu cần
 
 -- Nút Macro
 MacroButton.Parent = Frame
@@ -23,24 +23,24 @@ MacroButton.Text = "Macro"
 -- Nút Recording
 RecordingButton.Parent = Frame
 RecordingButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-RecordingButton.Position = UDim2.new(0, 10, 0, 50)
-RecordingButton.Size = UDim2.new(0, 130, 0, 40)
+RecordingButton.Position = UDim2.new(0, 0, 0, 40) -- Đặt ngay dưới nút Macro
+RecordingButton.Size = UDim2.new(0, 300, 0, 40)
 RecordingButton.Text = "Recording (Off)"
 RecordingButton.Visible = false
 
 -- Nút Play
 PlayButton.Parent = Frame
 PlayButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-PlayButton.Position = UDim2.new(0, 160, 0, 50)
-PlayButton.Size = UDim2.new(0, 130, 0, 40)
+PlayButton.Position = UDim2.new(0, 0, 0, 80) -- Đặt ngay dưới nút Recording
+PlayButton.Size = UDim2.new(0, 300, 0, 40)
 PlayButton.Text = "Play"
 PlayButton.Visible = false
 
 -- Nút Telelobby
 TelelobbyButton.Parent = Frame
 TelelobbyButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-TelelobbyButton.Position = UDim2.new(0, 10, 0, 100)
-TelelobbyButton.Size = UDim2.new(0, 280, 0, 40)
+TelelobbyButton.Position = UDim2.new(0, 0, 0, 120) -- Đặt ngay dưới nút Play
+TelelobbyButton.Size = UDim2.new(0, 300, 0, 40)
 TelelobbyButton.Text = "Telelobby"
 
 -- Biến ghi lại hành động
@@ -116,6 +116,7 @@ MacroButton.MouseButton1Click:Connect(function()
     macroVisible = not macroVisible
     RecordingButton.Visible = macroVisible
     PlayButton.Visible = macroVisible
+    TelelobbyButton.Visible = macroVisible
 end)
 
 -- Đưa người chơi về lobby
