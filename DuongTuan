@@ -1,0 +1,87 @@
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local RaidsActDropdown = Instance.new("TextButton")
+local ElementalMapDropdown = Instance.new("TextButton")
+local DifficultyDropdown = Instance.new("TextButton")
+local ModeDropdown = Instance.new("TextButton")
+local MapDropdown = Instance.new("TextButton")
+local ActDropdown = Instance.new("TextButton")
+local FriendsOnlyToggle = Instance.new("TextButton")
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+Frame.Size = UDim2.new(0, 300, 0, 400)
+Frame.Position = UDim2.new(0.5, -150, 0.5, -200)
+
+RaidsActDropdown.Parent = Frame
+RaidsActDropdown.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+RaidsActDropdown.Position = UDim2.new(0, 10, 0, 10)
+RaidsActDropdown.Size = UDim2.new(0, 280, 0, 50)
+RaidsActDropdown.Text = "Select Raids Act: 1"
+
+ElementalMapDropdown.Parent = Frame
+ElementalMapDropdown.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+ElementalMapDropdown.Position = UDim2.new(0, 10, 0, 70)
+ElementalMapDropdown.Size = UDim2.new(0, 280, 0, 50)
+ElementalMapDropdown.Text = "Select Elemental Map: Dark"
+
+DifficultyDropdown.Parent = Frame
+DifficultyDropdown.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+DifficultyDropdown.Position = UDim2.new(0, 10, 0, 130)
+DifficultyDropdown.Size = UDim2.new(0, 280, 0, 50)
+DifficultyDropdown.Text = "Select Difficulty: Normal"
+
+ModeDropdown.Parent = Frame
+ModeDropdown.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+ModeDropdown.Position = UDim2.new(0, 10, 0, 190)
+ModeDropdown.Size = UDim2.new(0, 280, 0, 50)
+ModeDropdown.Text = "Select Mode: Story"
+
+MapDropdown.Parent = Frame
+MapDropdown.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+MapDropdown.Position = UDim2.new(0, 10, 0, 250)
+MapDropdown.Size = UDim2.new(0, 280, 0, 50)
+MapDropdown.Text = "Select Map: nil"
+
+ActDropdown.Parent = Frame
+ActDropdown.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+ActDropdown.Position = UDim2.new(0, 10, 0, 310)
+ActDropdown.Size = UDim2.new(0, 280, 0, 50)
+ActDropdown.Text = "Select Act: 1"
+
+FriendsOnlyToggle.Parent = Frame
+FriendsOnlyToggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+FriendsOnlyToggle.Position = UDim2.new(0, 10, 0, 370)
+FriendsOnlyToggle.Size = UDim2.new(0, 280, 0, 50)
+FriendsOnlyToggle.Text = "Friends Only: Off"
+
+-- Thêm các chức năng khi người dùng nhấn vào các nút
+RaidsActDropdown.MouseButton1Click:Connect(function()
+    print("Raids Act selected!")
+end)
+
+ElementalMapDropdown.MouseButton1Click:Connect(function()
+    print("Elemental Map selected!")
+end)
+
+DifficultyDropdown.MouseButton1Click:Connect(function()
+    print("Difficulty selected!")
+end)
+
+ModeDropdown.MouseButton1Click:Connect(function()
+    print("Mode selected!")
+end)
+
+MapDropdown.MouseButton1Click:Connect(function()
+    print("Map selected!")
+end)
+
+ActDropdown.MouseButton1Click:Connect(function()
+    print("Act selected!")
+end)
+
+FriendsOnlyToggle.MouseButton1Click:Connect(function()
+    print("Friends Only toggled!")
+end)
