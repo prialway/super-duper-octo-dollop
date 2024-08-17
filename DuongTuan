@@ -198,4 +198,29 @@ end)
 -- Kết nối các nút trong macroFrame
 recordButton.MouseButton1Click:Connect(function()
     recording = not recording
-    recordButton.Text = recording and
+    recordButton.Text = recording and "Stop Recording" or "Record"
+    if not recording then
+        print("Macro recorded:", macro)
+    end
+end)
+
+playButton.MouseButton1Click:Connect(function()
+    playMacro()
+end)
+
+-- Chức năng tự động summon
+summonButton.MouseButton1Click:Connect(function()
+    local gems = game.Players.LocalPlayer.leaderstats.Gems -- Số Gems của người chơi
+    if gems.Value >= 50 then -- Kiểm tra xem người chơi có đủ Gems không
+        game.ReplicatedStorage.RemoteEvents.Summon:FireServer("HeroBanner", "LegendaryHero")
+        print("Summon thành công")
+    else
+        print("Không đủ Gems!")
+    end
+end)
+
+-- Chức năng tự động fuse
+fuseButton.MouseButton1Click:Connect(function()
+    game.ReplicatedStorage.RemoteEvents.Fuse:FireServer("Slot1", "Rare")
+    print("Fuse thành công!")
+end)
