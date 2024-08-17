@@ -1,102 +1,46 @@
-local TeleportService = game:GetService("TeleportService")
-local Players = game:GetService("Players")
+-- Auto Summon Script
+local summonButton = script.Parent.SummonButton -- Nút Summon
+local gems = game.Players.LocalPlayer.leaderstats.Gems -- Số Gems của người chơi
 
-local ScreenGui = Instance.new("ScreenGui")
-local Frame = Instance.new("Frame")
-local MacroButton = Instance.new("TextButton")
-local RecordingButton = Instance.new("TextButton")
-local PlayButton = Instance.new("TextButton")
-local TelelobbyButton = Instance.new("TextButton")
+summonButton.MouseButton1Click:Connect(function()
+    local summonMode = script.Parent.SummonMode.Text -- Lấy mode summon từ UI
+    local banner = script.Parent.SummonBanner.Text -- Lấy banner để summon
+    local unit = script.Parent.SummonUnit.Text -- Lấy unit để summon
 
--- Cài đặt GUI
-ScreenGui.Parent = Players.LocalPlayer:WaitForChild("PlayerGui")
-
-Frame.Parent = ScreenGui
-Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-Frame.Size = UDim2.new(0, 300, 0, 200)  -- Đảm bảo Frame đủ lớn
-Frame.Position = UDim2.new(0.5, -150, 0.5, -100)  -- Điều chỉnh vị trí nếu cần
-
--- Nút Macro
-MacroButton.Parent = Frame
-MacroButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Màu trắng
-MacroButton.Size = UDim2.new(0, 300, 0, 40)
-MacroButton.Position = UDim2.new(0, 0, 0, 0)
-MacroButton.Text = "Macro"
-MacroButton.TextColor3 = Color3.fromRGB(0, 0, 0) -- Màu chữ đen để dễ đọc
-
--- Nút Recording
-RecordingButton.Parent = Frame
-RecordingButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Màu trắng
-RecordingButton.Position = UDim2.new(0, 0, 0, 40) -- Đặt ngay dưới nút Macro
-RecordingButton.Size = UDim2.new(0, 300, 0, 40)
-RecordingButton.Text = "Recording (Off)"
-RecordingButton.Visible = false
-RecordingButton.TextColor3 = Color3.fromRGB(0, 0, 0) -- Màu chữ đen để dễ đọc
-
--- Nút Play
-PlayButton.Parent = Frame
-PlayButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Màu trắng
-PlayButton.Position = UDim2.new(0, 0, 0, 80) -- Đặt ngay dưới nút Recording
-PlayButton.Size = UDim2.new(0, 300, 0, 40)
-PlayButton.Text = "Play"
-PlayButton.Visible = false
-PlayButton.TextColor3 = Color3.fromRGB(0, 0, 0) -- Màu chữ đen để dễ đọc
-
--- Nút Telelobby
-TelelobbyButton.Parent = Frame
-TelelobbyButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Màu trắng
-TelelobbyButton.Position = UDim2.new(0, 0, 0, 120) -- Đặt ngay dưới nút Play
-TelelobbyButton.Size = UDim2.new(0, 300, 0, 40)
-TelelobbyButton.Text = "Telelobby"
-TelelobbyButton.TextColor3 = Color3.fromRGB(0, 0, 0) -- Màu chữ đen để dễ đọc
-
--- Biến ghi lại hành động
-local recording = false
-local actions = {}
-local macroVisible = false
-
--- Bắt đầu hoặc dừng ghi
-RecordingButton.MouseButton1Click:Connect(function()
-    recording = not recording
-    if recording then
-        RecordingButton.Text = "Recording (On)"
-        actions = {} -- Làm sạch danh sách hành động khi bắt đầu ghi mới
+    if gems.Value >= 50 then -- Kiểm tra xem người chơi có đủ Gems không
+        game.ReplicatedStorage.RemoteEvents.Summon:FireServer(banner, unit)
+        print("Summon thành công cho "..unit)
     else
-        RecordingButton.Text = "Recording (Off)"
+        print("Không đủ Gems!")
     end
 end)
+-- Auto Fuse Script
+local fuseButton = script.Parent.FuseButton -- Nút Fuse
+local fuseSlot = script.Parent.FuseSlot.Text -- Slot để fuse
+local fuseRarity = script.Parent.FuseRarity.Text -- Rarity để fuse
 
--- Ghi lại hành động di chuyển và đặt unit
-local function recordAction(actionType, unitName, position)
-    if recording then
-        table.insert(actions, {type = actionType, unit = unitName, position = position, time = tick()})
-        print("Ghi lại hành động:", actionType, unitName, position)
-    end
-end
-
--- Ghi lại hành động di chuyển
-local function onCharacterMoved()
-    if recording then
-        local player = Players.LocalPlayer
-        local position = player.Character.PrimaryPart.Position
-        recordAction("Move", nil, position)
-    end
-end
-
--- Kết nối sự kiện di chuyển
-Players.LocalPlayer.Character.Humanoid.Running:Connect(onCharacterMoved)
-
--- Ghi lại hành động đặt unit
-game:GetService("Players").LocalPlayer.Character.ChildAdded:Connect(function(child)
-    if child:IsA("Model") then
-        local position = child:GetPrimaryPartCFrame().p
-        recordAction("Place", child.Name, position)
-    end
+fuseButton.MouseButton1Click:Connect(function()
+    game.ReplicatedStorage.RemoteEvents.Fuse:FireServer(fuseSlot, fuseRarity)
+    print("Fuse thành công vào slot "..fuseSlot)
 end)
+local macro = {}
 
--- Phát lại hành động đã ghi
-PlayButton.MouseButton1Click:Connect(function()
-    local startTime = tick()
-    for _, action in ipairs(actions) do
-        local elapsedTime = tick() - startTime
-        loc
+function recordMacro(action)
+    table.insert(macro, action)
+end
+
+function playMacro()
+    for _, action in pairs(macro) do
+        -- Thực hiện các hành động được ghi lại
+    end
+end
+local HttpService = game:GetService("HttpService")
+
+function sendWebhook(url, message)
+    local data = {
+        ["content"] = message
+    }
+    local jsonData = HttpService:JSONEncode(data)
+    
+    HttpService:PostAsync(url, jsonData, Enum.HttpContentType.ApplicationJson)
+end
