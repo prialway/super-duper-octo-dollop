@@ -1,3 +1,6 @@
+local TeleportService = game:GetService("TeleportService")
+local Players = game:GetService("Players")
+
 local ScreenGui = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
 local MacroButton = Instance.new("TextButton")
@@ -6,7 +9,7 @@ local PlayButton = Instance.new("TextButton")
 local TelelobbyButton = Instance.new("TextButton")
 
 -- Cài đặt GUI
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.Parent = Players.LocalPlayer:WaitForChild("PlayerGui")
 
 Frame.Parent = ScreenGui
 Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
@@ -70,14 +73,14 @@ end
 -- Ghi lại hành động di chuyển
 local function onCharacterMoved()
     if recording then
-        local player = game.Players.LocalPlayer
+        local player = Players.LocalPlayer
         local position = player.Character.PrimaryPart.Position
         recordAction("Move", nil, position)
     end
 end
 
 -- Kết nối sự kiện di chuyển
-game.Players.LocalPlayer.Character.Humanoid.Running:Connect(onCharacterMoved)
+Players.LocalPlayer.Character.Humanoid.Running:Connect(onCharacterMoved)
 
 -- Ghi lại hành động đặt unit
 game:GetService("Players").LocalPlayer.Character.ChildAdded:Connect(function(child)
@@ -106,7 +109,7 @@ PlayButton.MouseButton1Click:Connect(function()
             -- Tái tạo hành động di chuyển (cần xử lý logic di chuyển người chơi nếu cần)
             print("Di chuyển đến vị trí", action.position)
             -- Ví dụ: Thay đổi vị trí của người chơi (chỉ áp dụng nếu hợp lý trong game)
-            game.Players.LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(action.position)
+            Players.LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(action.position)
         end
     end
 end)
@@ -119,10 +122,9 @@ MacroButton.MouseButton1Click:Connect(function()
     TelelobbyButton.Visible = macroVisible
 end)
 
--- Đưa người chơi về lobby
+-- Reload game khi nhấn vào nút Telelobby
 TelelobbyButton.MouseButton1Click:Connect(function()
-    -- Ví dụ: Di chuyển người chơi về một vị trí cụ thể trong lobby
-    local lobbyPosition = Vector3.new(0, 50, 0) -- Cập nhật vị trí lobby theo yêu cầu của bạn
-    game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(lobbyPosition))
-    print("Đưa người chơi về lobby tại vị trí", lobbyPosition)
+    local player = Players.LocalPlayer
+    -- Teleport người chơi đến cùng một nơi để reload game
+    TeleportService:Teleport(game.PlaceId, player)
 end)
