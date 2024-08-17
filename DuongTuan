@@ -124,13 +124,13 @@ showUIButton.TextSize = 20
 
 -- Cài đặt Nút BACK
 backButton.Parent = macroFrame
-backButton.Text = "BACK"
-backButton.Size = UDim2.new(0, 150, 0, 50)
-backButton.Position = UDim2.new(0.7, 0, 0.3, 0) -- Vị trí điều chỉnh để nút BACK không bị lệch
-backButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+backButton.Text = "X"
+backButton.Size = UDim2.new(0, 30, 0, 30)
+backButton.Position = UDim2.new(1, -35, 0, 5) -- Đặt ở góc trên bên phải của macroFrame
+backButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 backButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 backButton.Font = Enum.Font.GothamBold
-backButton.TextSize = 20
+backButton.TextSize = 18
 
 -- Cài đặt Góc Bo Tròn
 local function addUICorner(instance)
