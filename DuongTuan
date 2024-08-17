@@ -183,7 +183,6 @@ fuseButton.MouseButton1Click:Connect(function()
 end)
 
 -- Chức năng của nút HIDE UI
-local uiVisible = true
 hideUIButton.MouseButton1Click:Connect(function()
     mainFrame.Visible = false
     macroFrame.Visible = false
@@ -192,4 +191,9 @@ hideUIButton.MouseButton1Click:Connect(function()
 end)
 
 -- Chức năng của nút SHOW UI
-showUIButton.MouseButton1Click:Connect(function
+showUIButton.MouseButton1Click:Connect(function()
+    mainFrame.Visible = true
+    macroFrame.Visible = false
+    hideUIButton.Visible = true
+    showUIButton.Visible = false
+end)
