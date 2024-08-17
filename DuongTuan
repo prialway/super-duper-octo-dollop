@@ -18,33 +18,37 @@ Frame.Position = UDim2.new(0.5, -150, 0.5, -100)  -- Điều chỉnh vị trí n
 
 -- Nút Macro
 MacroButton.Parent = Frame
-MacroButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+MacroButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Màu trắng
 MacroButton.Size = UDim2.new(0, 300, 0, 40)
 MacroButton.Position = UDim2.new(0, 0, 0, 0)
 MacroButton.Text = "Macro"
+MacroButton.TextColor3 = Color3.fromRGB(0, 0, 0) -- Màu chữ đen để dễ đọc
 
 -- Nút Recording
 RecordingButton.Parent = Frame
-RecordingButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+RecordingButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Màu trắng
 RecordingButton.Position = UDim2.new(0, 0, 0, 40) -- Đặt ngay dưới nút Macro
 RecordingButton.Size = UDim2.new(0, 300, 0, 40)
 RecordingButton.Text = "Recording (Off)"
 RecordingButton.Visible = false
+RecordingButton.TextColor3 = Color3.fromRGB(0, 0, 0) -- Màu chữ đen để dễ đọc
 
 -- Nút Play
 PlayButton.Parent = Frame
-PlayButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+PlayButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Màu trắng
 PlayButton.Position = UDim2.new(0, 0, 0, 80) -- Đặt ngay dưới nút Recording
 PlayButton.Size = UDim2.new(0, 300, 0, 40)
 PlayButton.Text = "Play"
 PlayButton.Visible = false
+PlayButton.TextColor3 = Color3.fromRGB(0, 0, 0) -- Màu chữ đen để dễ đọc
 
 -- Nút Telelobby
 TelelobbyButton.Parent = Frame
-TelelobbyButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+TelelobbyButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Màu trắng
 TelelobbyButton.Position = UDim2.new(0, 0, 0, 120) -- Đặt ngay dưới nút Play
 TelelobbyButton.Size = UDim2.new(0, 300, 0, 40)
 TelelobbyButton.Text = "Telelobby"
+TelelobbyButton.TextColor3 = Color3.fromRGB(0, 0, 0) -- Màu chữ đen để dễ đọc
 
 -- Biến ghi lại hành động
 local recording = false
@@ -95,36 +99,4 @@ PlayButton.MouseButton1Click:Connect(function()
     local startTime = tick()
     for _, action in ipairs(actions) do
         local elapsedTime = tick() - startTime
-        local waitTime = action.time - elapsedTime
-        if waitTime > 0 then
-            wait(waitTime)
-        end
-
-        if action.type == "Place" then
-            -- Tái tạo hành động đặt unit
-            local unitClone = game:GetService("ReplicatedStorage"):FindFirstChild(action.unit):Clone()
-            unitClone.Parent = game.Workspace
-            unitClone:SetPrimaryPartCFrame(CFrame.new(action.position))
-        elseif action.type == "Move" then
-            -- Tái tạo hành động di chuyển (cần xử lý logic di chuyển người chơi nếu cần)
-            print("Di chuyển đến vị trí", action.position)
-            -- Ví dụ: Thay đổi vị trí của người chơi (chỉ áp dụng nếu hợp lý trong game)
-            Players.LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(action.position)
-        end
-    end
-end)
-
--- Hiển thị hoặc ẩn các nút Recording, Play và Telelobby
-MacroButton.MouseButton1Click:Connect(function()
-    macroVisible = not macroVisible
-    RecordingButton.Visible = macroVisible
-    PlayButton.Visible = macroVisible
-    TelelobbyButton.Visible = macroVisible
-end)
-
--- Reload game khi nhấn vào nút Telelobby
-TelelobbyButton.MouseButton1Click:Connect(function()
-    local player = Players.LocalPlayer
-    -- Teleport người chơi đến cùng một nơi để reload game
-    TeleportService:Teleport(game.PlaceId, player)
-end)
+        loc
