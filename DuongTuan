@@ -3,14 +3,15 @@ local Frame = Instance.new("Frame")
 local MacroButton = Instance.new("TextButton")
 local RecordingButton = Instance.new("TextButton")
 local PlayButton = Instance.new("TextButton")
+local TelelobbyButton = Instance.new("TextButton")
 
 -- Cài đặt GUI
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 Frame.Parent = ScreenGui
 Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-Frame.Size = UDim2.new(0, 300, 0, 100)
-Frame.Position = UDim2.new(0.5, -150, 0.5, -50)
+Frame.Size = UDim2.new(0, 300, 0, 180)
+Frame.Position = UDim2.new(0.5, -150, 0.5, -90)
 
 -- Nút Macro
 MacroButton.Parent = Frame
@@ -34,6 +35,13 @@ PlayButton.Position = UDim2.new(0, 160, 0, 50)
 PlayButton.Size = UDim2.new(0, 130, 0, 40)
 PlayButton.Text = "Play"
 PlayButton.Visible = false
+
+-- Nút Telelobby
+TelelobbyButton.Parent = Frame
+TelelobbyButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+TelelobbyButton.Position = UDim2.new(0, 10, 0, 100)
+TelelobbyButton.Size = UDim2.new(0, 280, 0, 40)
+TelelobbyButton.Text = "Telelobby"
 
 -- Biến ghi lại hành động
 local recording = false
@@ -103,9 +111,17 @@ PlayButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- Hiển thị hoặc ẩn các nút Recording và Play
+-- Hiển thị hoặc ẩn các nút Recording, Play và Telelobby
 MacroButton.MouseButton1Click:Connect(function()
     macroVisible = not macroVisible
     RecordingButton.Visible = macroVisible
     PlayButton.Visible = macroVisible
+end)
+
+-- Đưa người chơi về lobby
+TelelobbyButton.MouseButton1Click:Connect(function()
+    -- Ví dụ: Di chuyển người chơi về một vị trí cụ thể trong lobby
+    local lobbyPosition = Vector3.new(0, 50, 0) -- Cập nhật vị trí lobby theo yêu cầu của bạn
+    game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(lobbyPosition))
+    print("Đưa người chơi về lobby tại vị trí", lobbyPosition)
 end)
