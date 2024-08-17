@@ -5,29 +5,24 @@ local titleLabel = Instance.new("TextLabel")
 local summonButton = Instance.new("TextButton")
 local fuseButton = Instance.new("TextButton")
 local closeButton = Instance.new("TextButton")
-
--- Macro buttons
 local macroButton = Instance.new("TextButton")
 local macroFrame = Instance.new("Frame")
 local recordButton = Instance.new("TextButton")
 local playButton = Instance.new("TextButton")
 
--- Cài đặt GUI chính
+-- Cài đặt ScreenGui
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-mainFrame.Parent = screenGui
-titleLabel.Parent = mainFrame
-summonButton.Parent = mainFrame
-fuseButton.Parent = mainFrame
-closeButton.Parent = mainFrame
-macroFrame.Parent = screenGui
-macroFrame.Visible = false -- Ẩn macroFrame ban đầu
+screenGui.Name = "MyGui" -- Đặt tên để dễ kiểm tra
 
--- Cài đặt chính cho các thành phần chính
+-- Cài đặt Main Frame
+mainFrame.Parent = screenGui
 mainFrame.Size = UDim2.new(0, 400, 0, 300)
 mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
 mainFrame.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
 mainFrame.BorderSizePixel = 0
 
+-- Cài đặt Title Label
+titleLabel.Parent = mainFrame
 titleLabel.Text = "Game Menu"
 titleLabel.Size = UDim2.new(1, 0, 0, 50)
 titleLabel.Position = UDim2.new(0, 0, 0, 0)
@@ -36,7 +31,8 @@ titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 titleLabel.Font = Enum.Font.GothamBold
 titleLabel.TextSize = 24
 
--- Nút Summon
+-- Cài đặt Nút Summon
+summonButton.Parent = mainFrame
 summonButton.Text = "Summon"
 summonButton.Size = UDim2.new(0, 150, 0, 50)
 summonButton.Position = UDim2.new(0.1, 0, 0.3, 0)
@@ -45,16 +41,8 @@ summonButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 summonButton.Font = Enum.Font.GothamBold
 summonButton.TextSize = 20
 
--- Hiệu ứng Hover cho nút Summon
-summonButton.MouseEnter:Connect(function()
-    summonButton.BackgroundColor3 = Color3.fromRGB(75, 75, 75)
-end)
-
-summonButton.MouseLeave:Connect(function()
-    summonButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-end)
-
--- Nút Fuse
+-- Cài đặt Nút Fuse
+fuseButton.Parent = mainFrame
 fuseButton.Text = "Fuse"
 fuseButton.Size = UDim2.new(0, 150, 0, 50)
 fuseButton.Position = UDim2.new(0.1, 0, 0.5, 0)
@@ -63,16 +51,8 @@ fuseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 fuseButton.Font = Enum.Font.GothamBold
 fuseButton.TextSize = 20
 
--- Hiệu ứng Hover cho nút Fuse
-fuseButton.MouseEnter:Connect(function()
-    fuseButton.BackgroundColor3 = Color3.fromRGB(75, 75, 75)
-end)
-
-fuseButton.MouseLeave:Connect(function()
-    fuseButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-end)
-
--- Nút Đóng
+-- Cài đặt Nút Đóng
+closeButton.Parent = mainFrame
 closeButton.Text = "X"
 closeButton.Size = UDim2.new(0, 30, 0, 30)
 closeButton.Position = UDim2.new(1, -35, 0, 5)
@@ -81,17 +61,25 @@ closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 closeButton.Font = Enum.Font.GothamBold
 closeButton.TextSize = 18
 
--- Chức năng Đóng
-closeButton.MouseButton1Click:Connect(function()
-    screenGui.Enabled = false
-end)
+-- Cài đặt Nút Macro
+macroButton.Parent = screenGui
+macroButton.Text = "Macro"
+macroButton.Size = UDim2.new(0, 150, 0, 50)
+macroButton.Position = UDim2.new(0.7, 0, 0.7, 0)
+macroButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+macroButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+macroButton.Font = Enum.Font.GothamBold
+macroButton.TextSize = 20
 
--- Cài đặt GUI cho Macro Frame
-macroFrame.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+-- Cài đặt Macro Frame
+macroFrame.Parent = screenGui
 macroFrame.Size = UDim2.new(0, 400, 0, 300)
 macroFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
+macroFrame.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
 macroFrame.BorderSizePixel = 0
+macroFrame.Visible = false
 
+-- Cài đặt Nút Record
 recordButton.Parent = macroFrame
 recordButton.Text = "Record"
 recordButton.Size = UDim2.new(0, 150, 0, 50)
@@ -101,6 +89,7 @@ recordButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 recordButton.Font = Enum.Font.GothamBold
 recordButton.TextSize = 20
 
+-- Cài đặt Nút Play
 playButton.Parent = macroFrame
 playButton.Text = "Play"
 playButton.Size = UDim2.new(0, 150, 0, 50)
@@ -110,92 +99,31 @@ playButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 playButton.Font = Enum.Font.GothamBold
 playButton.TextSize = 20
 
--- Hiệu ứng Hover cho các nút Macro
-recordButton.MouseEnter:Connect(function()
-    recordButton.BackgroundColor3 = Color3.fromRGB(75, 75, 75)
-end)
-
-recordButton.MouseLeave:Connect(function()
-    recordButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-end)
-
-playButton.MouseEnter:Connect(function()
-    playButton.BackgroundColor3 = Color3.fromRGB(75, 75, 75)
-end)
-
-playButton.MouseLeave:Connect(function()
-    playButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-end)
-
--- Góc bo tròn cho các thành phần
-local corner = Instance.new("UICorner")
-corner.CornerRadius = UDim.new(0, 10)
-corner.Parent = mainFrame
-
-local buttonCorner = Instance.new("UICorner")
-buttonCorner.CornerRadius = UDim.new(0, 10)
-buttonCorner.Parent = summonButton
-
-local fuseButtonCorner = Instance.new("UICorner")
-fuseButtonCorner.CornerRadius = UDim.new(0, 10)
-fuseButtonCorner.Parent = fuseButton
-
-local closeButtonCorner = Instance.new("UICorner")
-closeButtonCorner.CornerRadius = UDim.new(0, 10)
-closeButtonCorner.Parent = closeButton
-
-local macroButtonCorner = Instance.new("UICorner")
-macroButtonCorner.CornerRadius = UDim.new(0, 10)
-macroButtonCorner.Parent = macroButton
-
-local recordButtonCorner = Instance.new("UICorner")
-recordButtonCorner.CornerRadius = UDim.new(0, 10)
-recordButtonCorner.Parent = recordButton
-
-local playButtonCorner = Instance.new("UICorner")
-playButtonCorner.CornerRadius = UDim.new(0, 10)
-playButtonCorner.Parent = playButton
-
--- Biến và chức năng cho Macro
-local recording = false
-local macro = {}
-
-local function recordMacro(action)
-    table.insert(macro, action)
+-- Cài đặt Góc Bo Tròn
+local function addUICorner(instance)
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 10)
+    corner.Parent = instance
 end
 
-local function playMacro()
-    for _, action in pairs(macro) do
-        -- Thực hiện các hành động được ghi lại
-        print("Playing action:", action) -- Thay thế bằng logic thực tế
-    end
-end
+addUICorner(mainFrame)
+addUICorner(summonButton)
+addUICorner(fuseButton)
+addUICorner(closeButton)
+addUICorner(macroButton)
+addUICorner(recordButton)
+addUICorner(playButton)
 
--- Nút Macro
-macroButton.Text = "Macro"
-macroButton.Size = UDim2.new(0, 150, 0, 50)
-macroButton.Position = UDim2.new(0.7, 0, 0.7, 0)
-macroButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-macroButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-macroButton.Font = Enum.Font.GothamBold
-macroButton.TextSize = 20
-
--- Hiệu ứng Hover cho nút Macro
-macroButton.MouseEnter:Connect(function()
-    macroButton.BackgroundColor3 = Color3.fromRGB(75, 75, 75)
-end)
-
-macroButton.MouseLeave:Connect(function()
-    macroButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-end)
-
--- Kết nối sự kiện cho các nút
+-- Chức năng của các nút
 macroButton.MouseButton1Click:Connect(function()
     mainFrame.Visible = false
     macroFrame.Visible = true
 end)
 
--- Kết nối các nút trong macroFrame
+closeButton.MouseButton1Click:Connect(function()
+    screenGui.Enabled = false
+end)
+
 recordButton.MouseButton1Click:Connect(function()
     recording = not recording
     recordButton.Text = recording and "Stop Recording" or "Record"
@@ -205,13 +133,15 @@ recordButton.MouseButton1Click:Connect(function()
 end)
 
 playButton.MouseButton1Click:Connect(function()
-    playMacro()
+    for _, action in pairs(macro) do
+        -- Thực hiện các hành động được ghi lại
+        print("Playing action:", action) -- Thay thế bằng logic thực tế
+    end
 end)
 
--- Chức năng tự động summon
 summonButton.MouseButton1Click:Connect(function()
     local gems = game.Players.LocalPlayer.leaderstats.Gems -- Số Gems của người chơi
-    if gems.Value >= 50 then -- Kiểm tra xem người chơi có đủ Gems không
+    if gems.Value >= 50 then
         game.ReplicatedStorage.RemoteEvents.Summon:FireServer("HeroBanner", "LegendaryHero")
         print("Summon thành công")
     else
@@ -219,7 +149,6 @@ summonButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- Chức năng tự động fuse
 fuseButton.MouseButton1Click:Connect(function()
     game.ReplicatedStorage.RemoteEvents.Fuse:FireServer("Slot1", "Rare")
     print("Fuse thành công!")
