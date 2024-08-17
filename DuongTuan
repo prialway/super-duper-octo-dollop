@@ -40,34 +40,54 @@ RecordButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- Ghi lại hành động đặt unit
-local function onUnitPlaced(unit, position)
+-- Ghi lại hành động di chuyển và đặt unit
+local function recordAction(actionType, unitName, position)
     if recording then
-        table.insert(actions, {unit = unit, position = position})
-        print("Ghi lại hành động: Đặt", unit, "tại vị trí", position)
+        table.insert(actions, {type = actionType, unit = unitName, position = position, time = tick()})
+        print("Ghi lại hành động:", actionType, unitName, position)
     end
 end
 
--- Giả lập sự kiện đặt unit (cần thay thế bằng sự kiện thực tế trong game)
+-- Ghi lại hành động di chuyển
+local function onCharacterMoved()
+    if recording then
+        local player = game.Players.LocalPlayer
+        local position = player.Character.PrimaryPart.Position
+        recordAction("Move", nil, position)
+    end
+end
+
+-- Kết nối sự kiện di chuyển
+game.Players.LocalPlayer.Character.Humanoid.Running:Connect(onCharacterMoved)
+
+-- Ghi lại hành động đặt unit
 game:GetService("Players").LocalPlayer.Character.ChildAdded:Connect(function(child)
     if child:IsA("Model") then
         local position = child:GetPrimaryPartCFrame().p
-        onUnitPlaced(child.Name, position)
+        recordAction("Place", child.Name, position)
     end
 end)
 
 -- Phát lại hành động đã ghi
 PlayButton.MouseButton1Click:Connect(function()
+    local startTime = tick()
     for _, action in ipairs(actions) do
-        -- Tái tạo hành động đặt unit (cần thay thế bằng logic thực tế)
-        print("Đang thực hiện lại:", action.unit, "tại vị trí", action.position)
-        
-        -- Ví dụ: Tạo lại unit tại vị trí đã ghi
-        local unitClone = game:GetService("ReplicatedStorage"):FindFirstChild(action.unit):Clone()
-        unitClone.Parent = game.Workspace
-        unitClone:SetPrimaryPartCFrame(CFrame.new(action.position))
-        
-        wait(1) -- Đặt thời gian chờ giữa các hành động nếu cần
+        local elapsedTime = tick() - startTime
+        local waitTime = action.time - elapsedTime
+        if waitTime > 0 then
+            wait(waitTime)
+        end
+
+        if action.type == "Place" then
+            -- Tái tạo hành động đặt unit
+            local unitClone = game:GetService("ReplicatedStorage"):FindFirstChild(action.unit):Clone()
+            unitClone.Parent = game.Workspace
+            unitClone:SetPrimaryPartCFrame(CFrame.new(action.position))
+        elseif action.type == "Move" then
+            -- Tái tạo hành động di chuyển (cần xử lý logic di chuyển người chơi nếu cần)
+            print("Di chuyển đến vị trí", action.position)
+            -- Ví dụ: Thay đổi vị trí của người chơi (chỉ áp dụng nếu hợp lý trong game)
+            game.Players.LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(action.position)
+        end
     end
 end)
-
