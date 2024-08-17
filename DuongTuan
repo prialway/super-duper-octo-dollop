@@ -11,6 +11,7 @@ local recordButton = Instance.new("TextButton")
 local playButton = Instance.new("TextButton")
 local hideUIButton = Instance.new("TextButton")
 local showUIButton = Instance.new("TextButton")
+local backButton = Instance.new("TextButton") -- Nút BACK
 
 -- Cài đặt ScreenGui
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
@@ -115,11 +116,21 @@ hideUIButton.TextSize = 20
 showUIButton.Parent = screenGui
 showUIButton.Text = "SHOW UI"
 showUIButton.Size = UDim2.new(0, 150, 0, 50)
-showUIButton.Position = UDim2.new(0.5, -160, 0, 10) -- Điều chỉnh vị trí để nằm kế bên nút HIDE UI
+showUIButton.Position = UDim2.new(0.5, 10, 0, 10) -- Điều chỉnh vị trí để nằm kế bên nút HIDE UI
 showUIButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
 showUIButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 showUIButton.Font = Enum.Font.GothamBold
 showUIButton.TextSize = 20
+
+-- Cài đặt Nút BACK
+backButton.Parent = macroFrame
+backButton.Text = "BACK"
+backButton.Size = UDim2.new(0, 150, 0, 50)
+backButton.Position = UDim2.new(0.7, 0, 0.3, 0) -- Vị trí điều chỉnh để nút BACK không bị lệch
+backButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+backButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+backButton.Font = Enum.Font.GothamBold
+backButton.TextSize = 20
 
 -- Cài đặt Góc Bo Tròn
 local function addUICorner(instance)
@@ -137,6 +148,7 @@ addUICorner(recordButton)
 addUICorner(playButton)
 addUICorner(hideUIButton)
 addUICorner(showUIButton)
+addUICorner(backButton)
 
 -- Biến ghi lại hành động
 local recording = false
@@ -163,26 +175,10 @@ end)
 playButton.MouseButton1Click:Connect(function()
     for _, action in pairs(macro) do
         -- Thực hiện các hành động được ghi lại
-        print("Playing action:", action) -- Thay thế bằng logic thực tế
+        print("Playing macro:", action)
     end
 end)
 
-summonButton.MouseButton1Click:Connect(function()
-    local gems = game.Players.LocalPlayer.leaderstats.Gems -- Số Gems của người chơi
-    if gems.Value >= 50 then
-        game.ReplicatedStorage.RemoteEvents.Summon:FireServer("HeroBanner", "LegendaryHero")
-        print("Summon thành công")
-    else
-        print("Không đủ Gems!")
-    end
-end)
-
-fuseButton.MouseButton1Click:Connect(function()
-    game.ReplicatedStorage.RemoteEvents.Fuse:FireServer("Slot1", "Rare")
-    print("Fuse thành công!")
-end)
-
--- Chức năng của nút HIDE UI
 hideUIButton.MouseButton1Click:Connect(function()
     mainFrame.Visible = false
     macroFrame.Visible = false
@@ -190,10 +186,14 @@ hideUIButton.MouseButton1Click:Connect(function()
     showUIButton.Visible = true
 end)
 
--- Chức năng của nút SHOW UI
 showUIButton.MouseButton1Click:Connect(function()
     mainFrame.Visible = true
     macroFrame.Visible = false
     hideUIButton.Visible = true
     showUIButton.Visible = false
+end)
+
+backButton.MouseButton1Click:Connect(function()
+    mainFrame.Visible = true
+    macroFrame.Visible = false
 end)
