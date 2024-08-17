@@ -185,16 +185,11 @@ end)
 -- Chức năng của nút HIDE UI
 local uiVisible = true
 hideUIButton.MouseButton1Click:Connect(function()
-    uiVisible = false
-    screenGui.Enabled = false
+    mainFrame.Visible = false
+    macroFrame.Visible = false
     hideUIButton.Visible = false
     showUIButton.Visible = true
 end)
 
 -- Chức năng của nút SHOW UI
-showUIButton.MouseButton1Click:Connect(function()
-    uiVisible = true
-    screenGui.Enabled = true
-    showUIButton.Visible = false
-    hideUIButton.Visible = true
-end)
+showUIButton.MouseButton1Click:Connect(function
