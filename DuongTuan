@@ -1,199 +1,30 @@
--- Khởi tạo GUI
+-- Tạo ScreenGui
 local screenGui = Instance.new("ScreenGui")
-local mainFrame = Instance.new("Frame")
-local titleLabel = Instance.new("TextLabel")
-local summonButton = Instance.new("TextButton")
-local fuseButton = Instance.new("TextButton")
-local closeButton = Instance.new("TextButton")
-local macroButton = Instance.new("TextButton")
-local macroFrame = Instance.new("Frame")
-local recordButton = Instance.new("TextButton")
-local playButton = Instance.new("TextButton")
-local hideUIButton = Instance.new("TextButton")
-local showUIButton = Instance.new("TextButton")
-local backButton = Instance.new("TextButton") -- Nút BACK
-
--- Cài đặt ScreenGui
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-screenGui.Name = "MyGui" -- Đặt tên để dễ kiểm tra
 
--- Cài đặt Main Frame
-mainFrame.Parent = screenGui
-mainFrame.Size = UDim2.new(0, 400, 0, 300)
-mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
-mainFrame.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
-mainFrame.BorderSizePixel = 0
+-- Tạo nút Button
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(0, 200, 0, 50)
+button.Position = UDim2.new(0.5, -100, 0.5, -25) -- Căn giữa màn hình
+button.Text = "Tham gia thử thách"
+button.Parent = screenGui
 
--- Cài đặt Title Label
-titleLabel.Parent = mainFrame
-titleLabel.Text = "Game Menu"
-titleLabel.Size = UDim2.new(1, 0, 0, 50)
-titleLabel.Position = UDim2.new(0, 0, 0, 0)
-titleLabel.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-titleLabel.Font = Enum.Font.GothamBold
-titleLabel.TextSize = 24
+-- Vị trí của thử thách
+local challengePosition = Vector3.new(100, 0, 50) -- Thay đổi tọa độ theo vị trí thử thách
 
--- Cài đặt Nút Summon
-summonButton.Parent = mainFrame
-summonButton.Text = "Summon"
-summonButton.Size = UDim2.new(0, 150, 0, 50)
-summonButton.Position = UDim2.new(0.1, 0, 0.3, 0)
-summonButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-summonButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-summonButton.Font = Enum.Font.GothamBold
-summonButton.TextSize = 20
+-- Hàm dịch chuyển nhân vật đến vị trí thử thách
+local function teleportToChallenge()
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
 
--- Cài đặt Nút Fuse
-fuseButton.Parent = mainFrame
-fuseButton.Text = "Fuse"
-fuseButton.Size = UDim2.new(0, 150, 0, 50)
-fuseButton.Position = UDim2.new(0.1, 0, 0.5, 0)
-fuseButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-fuseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-fuseButton.Font = Enum.Font.GothamBold
-fuseButton.TextSize = 20
-
--- Cài đặt Nút Đóng
-closeButton.Parent = mainFrame
-closeButton.Text = "X"
-closeButton.Size = UDim2.new(0, 30, 0, 30)
-closeButton.Position = UDim2.new(1, -35, 0, 5)
-closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-closeButton.Font = Enum.Font.GothamBold
-closeButton.TextSize = 18
-
--- Cài đặt Nút Macro
-macroButton.Parent = mainFrame
-macroButton.Text = "Macro"
-macroButton.Size = UDim2.new(0, 150, 0, 50)
-macroButton.Position = UDim2.new(0.7, -75, 0.3, 0) -- Điều chỉnh vị trí để không bị lệch
-macroButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-macroButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-macroButton.Font = Enum.Font.GothamBold
-macroButton.TextSize = 20
-
--- Cài đặt Macro Frame
-macroFrame.Parent = screenGui
-macroFrame.Size = UDim2.new(0, 400, 0, 300)
-macroFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
-macroFrame.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
-macroFrame.BorderSizePixel = 0
-macroFrame.Visible = false
-
--- Cài đặt Nút Record
-recordButton.Parent = macroFrame
-recordButton.Text = "Record"
-recordButton.Size = UDim2.new(0, 150, 0, 50)
-recordButton.Position = UDim2.new(0.1, 0, 0.3, 0)
-recordButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-recordButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-recordButton.Font = Enum.Font.GothamBold
-recordButton.TextSize = 20
-
--- Cài đặt Nút Play
-playButton.Parent = macroFrame
-playButton.Text = "Play"
-playButton.Size = UDim2.new(0, 150, 0, 50)
-playButton.Position = UDim2.new(0.1, 0, 0.5, 0)
-playButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-playButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-playButton.Font = Enum.Font.GothamBold
-playButton.TextSize = 20
-
--- Cài đặt Nút HIDE UI
-hideUIButton.Parent = screenGui
-hideUIButton.Text = "HIDE UI"
-hideUIButton.Size = UDim2.new(0, 150, 0, 50)
-hideUIButton.Position = UDim2.new(0.5, -160, 0, 10) -- Điều chỉnh vị trí để nằm kế bên nút SHOW UI
-hideUIButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-hideUIButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-hideUIButton.Font = Enum.Font.GothamBold
-hideUIButton.TextSize = 20
-
--- Cài đặt Nút SHOW UI
-showUIButton.Parent = screenGui
-showUIButton.Text = "SHOW UI"
-showUIButton.Size = UDim2.new(0, 150, 0, 50)
-showUIButton.Position = UDim2.new(0.5, 10, 0, 10) -- Điều chỉnh vị trí để nằm kế bên nút HIDE UI
-showUIButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-showUIButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-showUIButton.Font = Enum.Font.GothamBold
-showUIButton.TextSize = 20
-
--- Cài đặt Nút BACK
-backButton.Parent = macroFrame
-backButton.Text = "X"
-backButton.Size = UDim2.new(0, 30, 0, 30)
-backButton.Position = UDim2.new(1, -35, 0, 5) -- Đặt ở góc trên bên phải của macroFrame
-backButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-backButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-backButton.Font = Enum.Font.GothamBold
-backButton.TextSize = 18
-
--- Cài đặt Góc Bo Tròn
-local function addUICorner(instance)
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, 10)
-    corner.Parent = instance
+    if character then
+        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+        if humanoidRootPart then
+            humanoidRootPart.CFrame = CFrame.new(challengePosition)
+            print("Đã dịch chuyển đến vị trí thử thách.")
+        end
+    end
 end
 
-addUICorner(mainFrame)
-addUICorner(summonButton)
-addUICorner(fuseButton)
-addUICorner(closeButton)
-addUICorner(macroButton)
-addUICorner(recordButton)
-addUICorner(playButton)
-addUICorner(hideUIButton)
-addUICorner(showUIButton)
-addUICorner(backButton)
-
--- Biến ghi lại hành động
-local recording = false
-local macro = {}
-
--- Chức năng của các nút
-macroButton.MouseButton1Click:Connect(function()
-    mainFrame.Visible = false
-    macroFrame.Visible = true
-end)
-
-closeButton.MouseButton1Click:Connect(function()
-    screenGui.Enabled = false
-end)
-
-recordButton.MouseButton1Click:Connect(function()
-    recording = not recording
-    recordButton.Text = recording and "Stop Recording" or "Record"
-    if not recording then
-        print("Macro recorded:", macro)
-    end
-end)
-
-playButton.MouseButton1Click:Connect(function()
-    for _, action in pairs(macro) do
-        -- Thực hiện các hành động được ghi lại
-        print("Playing macro:", action)
-    end
-end)
-
-hideUIButton.MouseButton1Click:Connect(function()
-    mainFrame.Visible = false
-    macroFrame.Visible = false
-    hideUIButton.Visible = false
-    showUIButton.Visible = true
-end)
-
-showUIButton.MouseButton1Click:Connect(function()
-    mainFrame.Visible = true
-    macroFrame.Visible = false
-    hideUIButton.Visible = true
-    showUIButton.Visible = false
-end)
-
-backButton.MouseButton1Click:Connect(function()
-    mainFrame.Visible = true
-    macroFrame.Visible = false
-end)
+-- Liên kết sự kiện nhấn nút với hàm dịch chuyển
+button.MouseButton1Click:Connect(teleportToChallenge)
